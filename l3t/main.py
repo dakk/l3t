@@ -54,7 +54,8 @@ actions:
 
 	parser = argparse.ArgumentParser(usage=usage)
 
-	parser.add_argument('action', metavar='action', type=str, help="action to run")					
+	parser.add_argument('action', metavar='action', type=str, help="action to run")	
+					
 	parser.add_argument('--network', type=str, dest='network', action='store',
 	 			   default=None,
 	 			   help='force network to mainnet or testnet (default: auto)')

@@ -2,6 +2,17 @@ import argparse
 import sys
 from . import LModule
 
+SNAPSHOT_SOURCE = {
+    'mainnet': [
+        'https://snapshots.lisk.io/main/',
+        'https://snapshot.lisknode.io/',
+        'https://snapshot.liskworld.info/'
+    ], 
+    'testnet': [
+        'https://testnet3-snapshot.lisknode.io/'
+    ]
+}
+
 class Rebuild (LModule):
     """
         Rebuild node from snapshot

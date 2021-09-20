@@ -1,4 +1,4 @@
-from .lmodule import LModule
+from .lmodule import LModule, optionSelect
 from .rebuild import Rebuild
 from .enable_forging import EnableForging
 from .update import Update
