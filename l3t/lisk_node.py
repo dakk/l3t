@@ -5,9 +5,6 @@ class LiskNode:
         else:
             print ("Node is not running")
 
-    def getBaseDir(self):
-        return '/home/lisk/'
-
     def isRunning(self):
         """ Return true if the node is running """
         pass 

@@ -54,14 +54,17 @@ actions:
 
 	parser = argparse.ArgumentParser(usage=usage)
 
-	parser.add_argument('action', metavar='action', type=str, help="action to run")	
+	# parser.add_argument('action', metavar='action', type=str, help="action to run")	
 					
-	parser.add_argument('--network', type=str, dest='network', action='store',
-	 			   default=None,
-	 			   help='force network to mainnet or testnet (default: auto)')
+	# parser.add_argument('--network', type=str, dest='network', action='store',
+	#  			   default=None,
+	#  			   help='force network to mainnet or testnet (default: auto)')
 
-	args = parser.parse_args ()
-	return args
+	parser.add_argument('--base-path', type=str, dest='basepath', action='store',
+	 			   default='/home/lisk/',
+	 			   help='set base path (default: /home/lisk/')
+
+	return parser
 
 def getActionModule(act):
 	if act:
@@ -70,15 +73,15 @@ def getActionModule(act):
 				return x
 
 def main():
-	args = parseArgs() 
-	module = getActionModule(args.action)
+	parser = parseArgs() 
+	module = getActionModule(sys.argv[1])
 
 	if module == None:
-		print ('Unknown action: %s' % args.action)
+		print ('Unknown action: %s' % sys.argv[1])
 		sys.exit(0)
 
 	lnode = LiskNode()
-	m = module(args, lnode)
+	m = module(parser, lnode)
 	m.parseArgs()
 	m.run()
 
