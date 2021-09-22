@@ -14,6 +14,7 @@ class Start (LModule):
     def parseArgs(self):
         self.args = self.parser.parse_args (sys.argv[2::])
         self.lnode.setPath(self.args.basepath)
+        return self 
 
     def run(self):
         if self.lnode.isRunning():

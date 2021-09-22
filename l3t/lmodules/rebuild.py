@@ -2,7 +2,7 @@ import argparse
 import sys
 import os
 import time
-from . import LModule, bash, yn, optionSelect
+from . import LModule, bash, yn, optionSelect, Start, Stop
 
 SNAPSHOT_SOURCE = {
     'mainnet': [
@@ -26,6 +26,7 @@ class Rebuild (LModule):
     def parseArgs(self):
         self.args = self.parser.parse_args (sys.argv[2::])
         self.lnode.setPath(self.args.basepath)
+        return self 
 
     def run(self):
         if not self.lnode.isRunning():
@@ -44,8 +45,8 @@ class Rebuild (LModule):
         os.system('%s blockchain:download --url %s --output %s' % (self.lnode.getPath(), uri, self.args.basepath))
 
         print ("Importing snapshot...")
-        os.system('pm2 stop %s/pm2.conf.json' % self.args.basepath)
+        Stop(self.parser, self.lnode).injectArgs(self.args).run()
         time.sleep(3)
         os.system('%s blockchain:import %s/blockchain.db.tar.gz --force' % (self.lnode.getPath(), self.args.basepath, ))
-        os.system('pm2 start %s/pm2.conf.json' % self.args.basepath)
+        Start(self.parser, self.lnode).injectArgs(self.args).run()
         bash('rm -f %s/blockchain.db.tar.gz*' % self.args.basepath)

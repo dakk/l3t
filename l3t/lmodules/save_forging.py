@@ -18,6 +18,7 @@ class SaveForging (LModule):
 
         self.args = parser.parse_args (sys.argv[2::])
         self.lnode.setPath(self.args.basepath)
+        return self 
 
     def run(self):
         print ('Saving forging info...')

@@ -85,6 +85,10 @@ class LModule:
         self.parser = parser
         self.lnode = lnode
 
+    def injectArgs(self, args):
+        self.args = args 
+        return self 
+        
     def parseArgs(self):
         raise Exception('Abstract parseArgs()')
 

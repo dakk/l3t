@@ -40,7 +40,6 @@ except:
 from .lmodules import *
 from .lisk_node import LiskNode
 
-LMODULES = [ Rebuild, Install, SaveForging, Update, EnableForging, Start, Stop, Logs, Info ]
 
 # Parse command line args
 def parseArgs():

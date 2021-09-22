@@ -17,10 +17,10 @@ usage: usage: l3t [-h] action [arguments]
 Lisk3 node management tool
 
 actions:
-  rebuild		    rebuild node from snapshot
-  install		    install lisk-core
-  save-forging	    save forging info
-  update		    update lisk-core
+  rebuild		      rebuild node from snapshot
+  install		      install lisk-core
+  save-forging	  save forging info
+  update		      update lisk-core
   enable-forging	enable forging
   start		        start node
   stop		        stop node

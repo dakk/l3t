@@ -21,15 +21,19 @@ class Install (LModule):
 
         self.args = self.parser.parse_args (sys.argv[2::])
         self.lnode.setPath(self.args.basepath)
+        return self 
 
-    def run(self):
+    def run(self, network = None):
+        if not network:
+            network = self.args.network
+
         if self.lnode.isRunning():
             print ('An instance of lisk-core is running!')
             sys.exit(0)
         
-        print ('Installing lisk-core for network %s...' % self.args.network)
+        print ('Installing lisk-core for network %s...' % network)
 
-        versions = requests.get(DOWNLOAD_URI + self.args.network + '/').text.split('href="')[2::]
+        versions = requests.get(DOWNLOAD_URI + network + '/').text.split('href="')[2::]
         versions = map(lambda v: v.split('"')[0], versions)
         versions = filter(lambda v: v.find('/') != -1, versions)
         versions = map(lambda v: v.replace('/', ''), versions)
@@ -38,7 +42,7 @@ class Install (LModule):
 
         print ("Selected version %s" % selected)
 
-        uri = DOWNLOAD_URI + self.args.network + '/' + selected + '/'
+        uri = DOWNLOAD_URI + network + '/' + selected + '/'
         fname = 'lisk-core-v' + selected + '-linux-x64.tar.gz'
         tar = uri + fname 
         sha = uri + fname + '.SHA256' 
@@ -66,7 +70,7 @@ class Install (LModule):
         bash('cd %s && tar -xf %s' % (basedir, fname))
 
         print ("Writing pm2 starter %s/pm2.conf.json..." % basedir)
-        f = open(basedir + '/lisk-core/config/%s/custom-config.json' % self.args.network, 'w')
+        f = open(basedir + '/lisk-core/config/%s/custom-config.json' % network, 'w')
         f.write('{}')
         f.close() 
 
@@ -79,7 +83,7 @@ class Install (LModule):
     "LISK_CONFIG_FILE": "%s/lisk-core/config/%s/custom-config.json"
   }
 }
-''' % (basedir, self.args.network, basedir, self.args.network))
+''' % (basedir, network, basedir, network))
         f.close()
 
         print ("Node is ready; start with: pm2 start %s/pm2.conf.json" % basedir)

@@ -18,13 +18,14 @@ class EnableForging (LModule):
 
         self.margs = parser.parse_args (sys.argv[2::])
         self.lnode.setPath(self.args.basepath)
+        return self 
 
     def run(self):
         if not self.lnode.isRunning():
             print ('An instance of lisk-core is not running!')
             sys.exit(0)
 
-        i = self.lnode.getInfo()
+        i = self.lnode.getNodeInfo()
 
         if i['syncing']:
             print ('Node is syncing, cannot enable forging.')
