@@ -9,7 +9,7 @@ class Logs (LModule):
         Logs node
     """
     NAME = "logs"
-    DESCRIPTION = 'Logs node'
+    DESCRIPTION = 'show node logs'
 
     def parseArgs(self):
         self.args = self.parser.parse_args (sys.argv[2::])

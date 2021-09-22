@@ -9,7 +9,7 @@ class Info (LModule):
         Info node
     """
     NAME = "info"
-    DESCRIPTION = 'Info node'
+    DESCRIPTION = 'show node info'
 
     def parseArgs(self):
         self.args = self.parser.parse_args (sys.argv[2::])

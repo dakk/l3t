@@ -69,7 +69,7 @@ actions:
 
 	parser.add_argument('--base-path', type=str, dest='basepath', action='store',
 	 			   default=base,
-	 			   help='set base path (default: %s' % base)
+	 			   help='set base path (default: %s)' % base)
 
 	return parser
 
