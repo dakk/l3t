@@ -20,6 +20,7 @@ class Install (LModule):
                     help='force network to mainnet or testnet')
 
         self.args = self.parser.parse_args (sys.argv[2::])
+        self.lnode.setPath(self.args.basepath)
 
     def run(self):
         if self.lnode.isRunning():
@@ -51,10 +52,10 @@ class Install (LModule):
                 print ('Removing %s/lisk-core...' % basedir)
                 bash('rm -r %s/lisk-core' % basedir)
 
-        print ("Downloading %s..." % fname)
+        print ("Downloading %s to %s..." % (fname, basedir))
         bash('rm %s/lisk-core-v*' % basedir)
-        bash('curl %s -o %s/%s' % (tar, basedir, fname), stderr=subprocess.STDOUT)
-        bash('curl %s -o %s/%s.SHA256' % (sha, basedir, fname), stderr=subprocess.STDOUT)
+        os.system('curl %s -o %s/%s' % (tar, basedir, fname))
+        os.system('curl %s -o %s/%s.SHA256' % (sha, basedir, fname))
         
         out = bash('cd %s && sha256sum %s.SHA256 -c' % (basedir, fname)).value()
         if out.find('OK') == -1:
@@ -65,6 +66,10 @@ class Install (LModule):
         bash('cd %s && tar -xf %s' % (basedir, fname))
 
         print ("Writing pm2 starter %s/pm2.conf.json..." % basedir)
+        f = open(basedir + '/lisk-core/config/%s/custom-config.json' % self.args.network, 'w')
+        f.write('{}')
+        f.close() 
+
         f = open(basedir + '/pm2.conf.json', 'w')
         f.write('''{
   "name": "lisk-core",

@@ -17,6 +17,7 @@ class EnableForging (LModule):
         #             help='force network to mainnet or testnet (default: auto)')
 
         self.margs = parser.parse_args (sys.argv[2::])
+        self.lnode.setPath(self.args.basepath)
 
     def run(self):
         print ('Enabling forging...')

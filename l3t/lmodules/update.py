@@ -9,14 +9,13 @@ class Update (LModule):
     NAME = "update"
     DESCRIPTION = 'update lisk-core'
 
-    def parseArgs(self):
-        parser = argparse.ArgumentParser()
-                        
+    def parseArgs(self):                        
         # parser.add_argument('--network', type=str, dest='network', action='store',
         #             default=None, required=True,
         #             help='force network to mainnet or testnet (default: auto)')
 
-        self.margs = parser.parse_args (sys.argv[2::])
+        self.args = self.parser.parse_args (sys.argv[2::])
+        self.lnode.setPath(self.args.basepath)
 
     def run(self):
         print ('Updating lisk-core...')

@@ -23,6 +23,7 @@
 # SOFTWARE.
 
 import sys 
+import getpass
 import argparse
 
 if sys.version_info[0] < 3:
@@ -39,7 +40,7 @@ except:
 from .lmodules import *
 from .lisk_node import LiskNode
 
-LMODULES = [ Rebuild, Install, SaveForging, Update, EnableForging ]
+LMODULES = [ Rebuild, Install, SaveForging, Update, EnableForging, Start, Stop, Logs, Info ]
 
 # Parse command line args
 def parseArgs():
@@ -60,9 +61,15 @@ actions:
 	#  			   default=None,
 	#  			   help='force network to mainnet or testnet (default: auto)')
 
+	base = getpass.getuser()
+	if base == 'root':
+		base = '/root/'
+	else:
+		base = '/home/%s/' % base
+
 	parser.add_argument('--base-path', type=str, dest='basepath', action='store',
-	 			   default='/home/lisk/',
-	 			   help='set base path (default: /home/lisk/')
+	 			   default=base,
+	 			   help='set base path (default: %s' % base)
 
 	return parser
 
@@ -74,6 +81,11 @@ def getActionModule(act):
 
 def main():
 	parser = parseArgs() 
+
+	if len(sys.argv) < 2:
+		parser.print_help()
+		sys.exit(0)
+
 	module = getActionModule(sys.argv[1])
 
 	if module == None:
