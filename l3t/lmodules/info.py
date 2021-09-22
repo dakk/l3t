@@ -21,10 +21,17 @@ class Info (LModule):
             sys.exit(0)
 
         i = self.lnode.getNodeInfo()
+        f = self.lnode.getForgingStatus()
         print (i)
+        print(f)
         print()
         print ('Node Info:')
         print('\tnetwork: %s' % self.lnode.networkOfIdentifier(i['networkIdentifier']))
         for x in ['version', 'syncing', 'height', 'unconfirmedTransactions']:
-            print ('\t%s: %s' % (x, i[x]))  
-        print (i)
+            print ('\t%s: %s' % (x, i[x]))
+
+        for x in f:
+            print('\n')
+            for y in x:
+                print('\t%s: %s', str(x[y]))
+            

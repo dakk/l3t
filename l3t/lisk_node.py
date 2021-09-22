@@ -26,6 +26,9 @@ class LiskNode:
     def getNodeInfo(self):
         return json.loads(bash('%s node:info' % self.basepath).value())
 
+    def getForgingStatus(self):
+        return json.loads(bash('%s forging:status' % self.basepath).value())
+
     def getVersion(self):
         """ Return lisk-core version """
         return self.getNodeInfo()['version']
@@ -46,9 +49,10 @@ class LiskNode:
     def getBlockHeight(self):
         self.getNodeInfo()['height']
 
-    def getForgingInfo(self):
-        pass 
 
-    def enableForging(self, a, b, c):
-        pass 
+    def enableForging(self, address, height, maxheightpreviouslyforged, maxheightprevoted, password = None):
+        cmd = '%s forging:enable "%s" "%d" "%d" "%d"' % (self.basepath, address, height, maxheightpreviouslyforged, maxheightprevoted)
+        if password:
+            cmd += ' --password "%s"' % password 
+        return bash(cmd).value()
 
