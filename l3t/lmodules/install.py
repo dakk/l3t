@@ -69,21 +69,26 @@ class Install (LModule):
         print ("Extracting %s to %s..." % (fname, basedir))
         bash('cd %s && tar -xf %s' % (basedir, fname))
 
-        print ("Writing pm2 starter %s/pm2.conf.json..." % basedir)
         f = open(basedir + '/lisk-core/config/%s/custom-config.json' % network, 'w')
         f.write('{}')
         f.close() 
 
-        f = open(basedir + '/pm2.conf.json', 'w')
-        f.write('''{
-  "name": "lisk-core",
-  "script": "%s/lisk-core/bin/lisk-core start --api-ws",
-  "env": {
-    "LISK_NETWORK": "%s",
-    "LISK_CONFIG_FILE": "%s/lisk-core/config/%s/custom-config.json"
-  }
-}
-''' % (basedir, network, basedir, network))
-        f.close()
+        overwritePM2 = True
+        if os.path.isfile(basedir + '/pm2.conf.json'):
+            overwritePM2 = yn(prompt="File %s/pm2.conf.json exists, overwrite?" % basedir)
+
+        if overwritePM2:
+            print ("Writing pm2 starter %s/pm2.conf.json..." % basedir)
+            f = open(basedir + '/pm2.conf.json', 'w')
+            f.write('''{
+    "name": "lisk-core",
+    "script": "%s/lisk-core/bin/lisk-core start --api-ws",
+    "env": {
+        "LISK_NETWORK": "%s",
+        "LISK_CONFIG_FILE": "%s/lisk-core/config/%s/custom-config.json"
+    }
+    }
+    ''' % (basedir, network, basedir, network))
+            f.close()
 
         print ("Node is ready; start with: pm2 start %s/pm2.conf.json" % basedir)
