@@ -20,6 +20,6 @@ class Stop (LModule):
         if not self.lnode.isRunning():
             print ('An instance of lisk-core is not running!')
 
-        print ('Stopping Lisk')
+        print ('=> Stopping Lisk')
         os.system('pm2 stop %s/pm2.conf.json' % self.args.basepath)
         

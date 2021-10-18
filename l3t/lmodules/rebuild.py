@@ -35,16 +35,16 @@ class Rebuild (LModule):
 
         net = self.lnode.getNetwork()
 
-        print ('Rebuilding node from %s snapshot...' % net)
+        print ('=> Rebuilding node from %s snapshot...' % net)
         sources = SNAPSHOT_SOURCE[net]
         selected = optionSelect(sources, prompt="Snapshot source: ", header="Which snapshot source do you want to use?")
 
-        print ('Downloading snapshot...')
+        print ('=> Downloading snapshot...')
         uri = selected + 'blockchain.db.tar.gz'
         bash('rm -f %s/blockchain.db.tar.gz*' % self.args.basepath)
         os.system('%s blockchain:download --url %s --output %s' % (self.lnode.getPath(), uri, self.args.basepath))
 
-        print ("Importing snapshot...")
+        print ("=> Importing snapshot...")
         Stop(self.parser, self.lnode).injectArgs(self.args).run()
         time.sleep(3)
         os.system('%s blockchain:import %s/blockchain.db.tar.gz --force' % (self.lnode.getPath(), self.args.basepath, ))

@@ -18,7 +18,7 @@ class Info (LModule):
 
     def run(self):
         if not self.lnode.isRunning():
-            print ('An instance of lisk-core is not running!')
+            print ('=> An instance of lisk-core is not running!')
             sys.exit(0)
 
         i = self.lnode.getNodeInfo()

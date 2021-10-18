@@ -96,7 +96,7 @@ def main():
 	m.parseArgs()
 	m.run()
 
-	print ('Done.')
+	print ('=> Done.')
 
 if __name__ == "__main__":
 	main()

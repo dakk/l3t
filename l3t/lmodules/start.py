@@ -21,6 +21,6 @@ class Start (LModule):
             print ('An instance of lisk-core is running!')
             sys.exit(0)
 
-        print ('Starting Lisk')
+        print ('=> Starting Lisk')
         os.system('pm2 start %s/pm2.conf.json' % self.args.basepath)
         

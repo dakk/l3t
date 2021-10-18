@@ -22,13 +22,13 @@ class Update (LModule):
 
     def run(self):
         if not self.lnode.isRunning():
-            print ('Lisk-core is not running!')
+            print ('=> Lisk-core is not running!')
             sys.exit(0)
 
-        print ('Updating lisk-core...')
+        print ('=> Updating lisk-core...')
         i = self.lnode.getNodeInfo()
         net = self.lnode.networkOfIdentifier(i['networkIdentifier'])
-        print ('Current version is %s' % i['version'])
+        print ('=> Current version is %s' % i['version'])
         os.system('mv %s/lisk-core %s/lisk-core_back' % (self.args.basepath, self.args.basepath))
         
         Stop(self.parser, self.lnode).injectArgs(self.args).run()

@@ -22,23 +22,23 @@ class EnableForging (LModule):
 
     def run(self):
         if not self.lnode.isRunning():
-            print ('An instance of lisk-core is not running!')
+            print ('=> An instance of lisk-core is not running!')
             sys.exit(0)
 
         i = self.lnode.getNodeInfo()
 
         if i['syncing']:
-            print ('Node is syncing, cannot enable forging.')
-            sys.exit(0)
+            print ('=> Node is syncing, cannot enable forging.')
+            self.lnode.waitUntilSynced()
 
-        print ('Enabling forging...')
+        print ('=> Enabling forging...')
         f = self.lnode.getForgingStatus()
 
         for delegate in f:
             if delegate['forging']:
-                print ('Forging already enabled for delegate %s, skipping' % delegate['address'])
+                print ('=> Forging already enabled for delegate %s, skipping' % delegate['address'])
                 continue
 
             en = self.lnode.enableForging(delegate['address'], delegate['height'], delegate['maxHeightPreviouslyForged'], delegate['maxHeightPrevoted'])
             print(en)
-            print ('Forging enabled for %s' % delegate['address'])
+            print ('=> Forging enabled for %s' % delegate['address'])

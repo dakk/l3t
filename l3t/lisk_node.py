@@ -1,9 +1,10 @@
 from .lmodules import bash 
 import json 
+import time
 
 class LiskNode:
     def __init__(self):
-        pass 
+        self.cache = None
 
     def getPath(self):
         return self.basepath
@@ -16,24 +17,41 @@ class LiskNode:
         # else:
         #     print ("Node is not running")
 
-    def isRunning(self):
+    def isRunning(self, cached = False):
         """ Return true if the node is running """
         try:
-            return self.getNodeInfo()['height'] > 0
+            return self.getNodeInfo(cached)['height'] > 0
         except:
             return False
 
-    def getNodeInfo(self):
-        return json.loads(bash('%s node:info' % self.basepath).value())
+    def waitUntilSynced(self):
+        """ Wait until the node is synced """
+        while not self.isSynced():
+            print ("=> Node is syncing, current height is %d" % self.getBlockHeight(True))
+            time.sleep(5)
+
+    def getNodeInfo(self, cached = False):
+        if cached and self.cache != None:
+            return self.cache 
+        ni = json.loads(bash('%s node:info' % self.basepath).value())
+        self.cache = ni
+        return ni
+
+    def isSynced(self, cached = False):
+        """ Return true if the node is synced """
+        try:
+            return not self.getNodeInfo(cached)['syncing']
+        except:
+            return False
 
     def getForgingStatus(self):
         return json.loads(bash('%s forging:status' % self.basepath).value())
 
-    def getVersion(self):
+    def getVersion(self, cached = False):
         """ Return lisk-core version """
-        return self.getNodeInfo()['version']
+        return self.getNodeInfo(cached)['version']
 
-    def getBlockHeights(self):
+    def getBlockHeights(self, cached = False):
         """ Return block height from different source """
         pass 
 
@@ -43,11 +61,11 @@ class LiskNode:
         else:
             return 'testnet'
 
-    def getNetwork(self):
-        return self.networkOfIdentifier(self.getNodeInfo()['networkIdentifier'])
+    def getNetwork(self, cached = False):
+        return self.networkOfIdentifier(self.getNodeInfo(cached)['networkIdentifier'])
 
-    def getBlockHeight(self):
-        self.getNodeInfo()['height']
+    def getBlockHeight(self, cached = False):
+        return self.getNodeInfo(cached)['height']
 
 
     def enableForging(self, address, height, maxheightpreviouslyforged, maxheightprevoted, password = None):

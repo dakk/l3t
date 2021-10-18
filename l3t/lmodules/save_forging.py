@@ -21,4 +21,7 @@ class SaveForging (LModule):
         return self 
 
     def run(self):
-        print ('Saving forging info...')
+        print ('=> Saving forging info...')
+
+        if not self.lnode.isSynced(): 
+            print ('=> The node is syncing, please wait')

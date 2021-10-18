@@ -18,9 +18,9 @@ class Logs (LModule):
 
     def run(self):
         if not self.lnode.isRunning():
-            print ('An instance of lisk-core is not running!')
+            print ('=> An instance of lisk-core is not running!')
             sys.exit(0)
 
-        print ('Tailing logs')
+        print ('=> Tailing logs')
         os.system('pm2 logs lisk-core')
         
